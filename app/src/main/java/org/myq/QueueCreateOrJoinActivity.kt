@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.widget.Button
+import android.widget.EditText
 import com.google.firebase.auth.FirebaseAuth
 
 class QueueCreateOrJoinActivity : AppCompatActivity() {
@@ -44,6 +45,24 @@ class QueueCreateOrJoinActivity : AppCompatActivity() {
             }, ifNoQueueExists = {
                 QueueManager.createQueue(currentUser)
             })
+        }
+
+        joinQueueButton.setOnClickListener {
+            val joinCodeEditText = EditText(this)
+            AlertDialog.Builder(this)
+                .setTitle("Join a Queue")
+                .setMessage("Enter the join code for the queue you would like to join!")
+                .setView(joinCodeEditText)
+                .setPositiveButton("Join", { dialog, which ->
+                    val joinCode = joinCodeEditText.text.toString()
+                    QueueManager.joinQueue(joinCode, onSuccess = {
+                        advanceToNextActivity()
+                    }, onFailure = {
+                        makeToast("Error: Failed to join queue with given code!", this)
+                    })
+                })
+                .setNegativeButton("Cancel", { dialog, which -> })
+                .show()
         }
     }
 
