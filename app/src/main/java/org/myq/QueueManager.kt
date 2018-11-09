@@ -42,6 +42,6 @@ object QueueManager {
     // creates a queue for a user
     fun createQueue(user: FirebaseUser) {
         val reference = getQueueReference(user)
-        reference.setValue(Queue(joinCode = "SUP", songs = listOf()))
+        reference.setValue(Queue(joinCode = generateJoinCodeForQueue(), songs = listOf()))
     }
 }
