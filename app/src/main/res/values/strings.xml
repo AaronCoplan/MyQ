@@ -13,4 +13,7 @@
     <!-- QueueCreateOrJoinActivity Strings -->
     <string name="queue_create_or_join_activity_create_button_text">Create a Queue</string>
     <string name="queue_create_or_join_activity_join_button_text">Join a Queue</string>
+
+    <!-- QueueViewActivity Strings -->
+    <string name="queue_view_activity_empty_queue">Empty Queue!  Add some songs to get started.</string>
 </resources>

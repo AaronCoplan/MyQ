@@ -5,7 +5,8 @@ import com.google.firebase.database.*
 import java.lang.ref.Reference
 
 data class Song (
-    val name: String
+    val title: String,
+    val artist: String
 )
 
 data class Queue (
