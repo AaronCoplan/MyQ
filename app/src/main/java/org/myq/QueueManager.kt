@@ -1,22 +1,47 @@
 package org.myq
 
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
+import java.lang.ref.Reference
+
+data class Song (
+    val name: String
+)
+
+data class Queue (
+    val joinCode: String,
+    val songs: List<Song>
+)
 
 object QueueManager {
 
     private val db = FirebaseDatabase.getInstance()
 
-    private var counter = 0
+    private fun getQueueReference(user: FirebaseUser): DatabaseReference {
+        return db.reference.child(user.uid)
+    }
 
-    // return true if user already has a queue, false otherwise
-    fun hasOwnQueue(user: FirebaseUser): Boolean {
-        val reference = db.reference.child(user.uid)
-        println(reference)
-        synchronized(counter) {
-            reference.setValue("SUP THERE $counter")
-            ++counter
-        }
-        return false
+    // execute ifQueueExists() if user already has a queue, ifNoQueueExists() otherwise
+    fun hasOwnQueue(user: FirebaseUser, ifQueueExists: () -> Unit, ifNoQueueExists: () -> Unit) {
+        val reference = getQueueReference(user)
+        reference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(queueSnapshot: DataSnapshot) {
+                if(queueSnapshot.exists()) {
+                   ifQueueExists()
+                } else {
+                    ifNoQueueExists()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // ignore
+            }
+        })
+    }
+
+    // creates a queue for a user
+    fun createQueue(user: FirebaseUser) {
+        val reference = getQueueReference(user)
+        reference.setValue(Queue(joinCode = "SUP", songs = listOf()))
     }
 }

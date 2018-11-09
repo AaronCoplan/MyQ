@@ -20,11 +20,14 @@ class QueueCreateOrJoinActivity : AppCompatActivity() {
         createQueueButton = findViewById(R.id.createQueueButton)
         joinQueueButton = findViewById(R.id.joinQueueButton)
 
+        val currentUser = firebaseAuth.currentUser!!
         createQueueButton.setOnClickListener {
-            if(QueueManager.hasOwnQueue(firebaseAuth.currentUser!!)) {
-                // users may only possess one queue at a time
-                // user already has a queue, prompt to delete and start new queue or rejoin old queue
-            }
+            QueueManager.hasOwnQueue(currentUser, ifQueueExists = {
+                makeToast("QUEUE ALREADY EXISTS", this)
+            }, ifNoQueueExists = {
+                QueueManager.createQueue(currentUser)
+                makeToast("NO QUEUE EXISTS, CREATING ONE", this)
+            })
         }
     }
 }
