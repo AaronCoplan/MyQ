@@ -86,6 +86,8 @@ class LoginActivity : AppCompatActivity() {
                             } else {
                                 makeToast("Signup failed!  Please try again.", this)
                             }
+                        } else {
+                            makeToast("Signup failed!  Please try again.", this)
                         }
                     }
                 }
