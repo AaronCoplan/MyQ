@@ -1,5 +1,6 @@
 package org.myq
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -71,11 +72,11 @@ object QueueManager {
         })
     }
 
-    fun subscribeToSongList(callback: (List<Song>) -> Unit) {
+    fun subscribeToSongList(callback: (List<Song>) -> Unit, failureCallback: () -> Unit) {
         val reference = db.reference.child("$activeQueueID/queue")
         reference.addValueEventListener(object: ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                failureCallback()
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {

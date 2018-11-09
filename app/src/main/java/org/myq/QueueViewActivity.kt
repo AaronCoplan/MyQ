@@ -21,7 +21,7 @@ class QueueViewActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        QueueManager.subscribeToSongList { songList ->
+        QueueManager.subscribeToSongList(callback = { songList ->
             if (songList.isEmpty()) {
                 emptyQueueTextView.visibility = View.VISIBLE
                 recyclerView.visibility = View.GONE
@@ -30,6 +30,8 @@ class QueueViewActivity : AppCompatActivity() {
                 emptyQueueTextView.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
             }
-        }
+        }, failureCallback = {
+            makeToast("Error: Failed to update song list!", this)
+        })
     }
 }
