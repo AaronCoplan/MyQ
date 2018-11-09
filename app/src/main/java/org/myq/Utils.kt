@@ -7,8 +7,3 @@ fun makeToast(msg: String, context: Context) {
     val toast = Toast.makeText(context, msg, Toast.LENGTH_LONG)
     toast.show()
 }
-
-fun generateJoinCodeForQueue(): String {
-    // FIXME: actually implement this function
-    return "SUP"
-}

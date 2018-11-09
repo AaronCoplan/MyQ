@@ -16,18 +16,28 @@ data class Queue (
 object QueueManager {
 
     private val db = FirebaseDatabase.getInstance()
+    private var activeQueueID: String? = null
 
     private fun getQueueReference(user: FirebaseUser): DatabaseReference {
         return db.reference.child(user.uid)
     }
 
+    private fun updateActiveQueueID(newActiveQueueID: String?) {
+        println("\nUPDATED ACTIVE QUEUE ID: $newActiveQueueID\n")
+        activeQueueID = newActiveQueueID
+    }
+
     // execute ifQueueExists() if user already has a queue, ifNoQueueExists() otherwise
     fun hasOwnQueue(user: FirebaseUser, ifQueueExists: () -> Unit, ifNoQueueExists: () -> Unit) {
         val reference = getQueueReference(user)
+        doesQueueExist(reference, ifQueueExists, ifNoQueueExists)
+    }
+
+    fun doesQueueExist(reference: DatabaseReference, ifQueueExists: () -> Unit, ifNoQueueExists: () -> Unit) {
         reference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(queueSnapshot: DataSnapshot) {
                 if(queueSnapshot.exists()) {
-                   ifQueueExists()
+                    ifQueueExists()
                 } else {
                     ifNoQueueExists()
                 }
@@ -42,6 +52,18 @@ object QueueManager {
     // creates a queue for a user
     fun createQueue(user: FirebaseUser) {
         val reference = getQueueReference(user)
-        reference.setValue(Queue(joinCode = generateJoinCodeForQueue(), songs = listOf()))
+        reference.setValue(Queue(joinCode = user.uid, songs = listOf()))
+        updateActiveQueueID(user.uid)
+    }
+
+    // joins a queue with the specified code, calling onSuccess and onFailure based on result
+    fun joinQueue(joinCode: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+        val reference = db.reference.child(joinCode)
+        doesQueueExist(reference, ifQueueExists = {
+            updateActiveQueueID(joinCode)
+            onSuccess()
+        }, ifNoQueueExists = {
+            onFailure()
+        })
     }
 }
