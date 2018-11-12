@@ -7,6 +7,26 @@
         android:layout_height="match_parent"
         tools:context=".LoginActivity">
 
+    <Switch
+            android:text="@string/login_activity_remember_username_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="115dp" android:id="@+id/rememberUsernameSwitch" android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/usernameEditText"/>
+
+    <Switch
+            android:text="@string/login_activity_remember_password_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="115dp" android:id="@+id/rememberPasswordSwitch" android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/passwordEditText"/>
+
     <android.support.constraint.Guideline
             android:id="@+id/leftGuideline"
             android:layout_width="wrap_content"
@@ -49,16 +69,16 @@
             android:inputType="textPassword"
             android:hint="@string/login_activity_password_hint"
             android:ems="10"
-            android:id="@+id/passwordEditText" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/usernameEditText"
+            android:id="@+id/passwordEditText"
             android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-            android:layout_marginEnd="8dp" app:layout_constraintEnd_toStartOf="@+id/rightGuideline"/>
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/rememberUsernameSwitch"/>
     <Button
             android:text="@string/login_activity_login_button_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/loginButton" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/passwordEditText"
+            app:layout_constraintTop_toBottomOf="@+id/rememberPasswordSwitch"
             app:layout_constraintEnd_toStartOf="@+id/rightGuideline" android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="@+id/leftGuideline" android:layout_marginStart="8dp"/>
     <Button

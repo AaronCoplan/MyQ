@@ -1,10 +1,13 @@
 package org.myq
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Switch
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
@@ -13,10 +16,14 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var preferences: SharedPreferences
+
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
     private lateinit var signupButton: Button
+    private lateinit var rememberUsernameSwitch: Switch
+    private lateinit var rememberPasswordSwitch: Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +41,52 @@ class LoginActivity : AppCompatActivity() {
             advanceToNextActivity()
         }
 
+        preferences = getSharedPreferences("MyQ", Context.MODE_PRIVATE)
+
+        rememberUsernameSwitch = findViewById(R.id.rememberUsernameSwitch)
+        rememberPasswordSwitch = findViewById(R.id.rememberPasswordSwitch)
+
+        rememberUsernameSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            val username = usernameEditText.text.toString()
+
+            if(isChecked) {
+                if(username.isNullOrEmpty()) {
+                   buttonView.isChecked = false
+                } else {
+                    preferences.edit().putString("USERNAME", username).apply()
+                }
+            } else {
+                preferences.edit().remove("USERNAME").apply()
+            }
+        }
+
+        rememberPasswordSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            val password = passwordEditText.text.toString()
+
+            if(isChecked) {
+                if(password.isNullOrEmpty()) {
+                    buttonView.isChecked = false
+                } else {
+                    preferences.edit().putString("PASSWORD", password).apply()
+                }
+            }else {
+                preferences.edit().remove("PASSWORD").apply()
+            }
+        }
+
         usernameEditText = findViewById(R.id.usernameEditText)
+        if(preferences.contains("USERNAME")) {
+            usernameEditText.setText(preferences.getString("USERNAME", ""))
+            rememberUsernameSwitch.isChecked = true
+        }
+
         passwordEditText = findViewById(R.id.passwordEditText)
+        if(preferences.contains("PASSWORD")) {
+            passwordEditText.setText(preferences.getString("PASSWORD", ""))
+            rememberPasswordSwitch.isChecked = true
+        }
+
+
         loginButton = findViewById(R.id.loginButton)
         signupButton = findViewById(R.id.signupButton)
 
