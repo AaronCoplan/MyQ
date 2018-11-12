@@ -1,12 +1,17 @@
 package org.myq
 
+import android.content.Context
+import android.support.v7.widget.RecyclerView
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import java.lang.ref.Reference
 
 data class Song (
-    val name: String
-)
+    val title: String,
+    val artist: String
+) {
+    constructor() : this("", "")
+}
 
 data class Queue (
     val joinCode: String,
@@ -64,6 +69,27 @@ object QueueManager {
             onSuccess()
         }, ifNoQueueExists = {
             onFailure()
+        })
+    }
+
+    fun subscribeToSongList(callback: (List<Song>) -> Unit, failureCallback: () -> Unit) {
+        val reference = db.reference.child("$activeQueueID/queue")
+        reference.addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                failureCallback()
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val songList: ArrayList<Song> = arrayListOf()
+                dataSnapshot.children.forEach { data ->
+                    println(data.getValue())
+                    val song = data.getValue(Song::class.java)
+                    if(song != null) {
+                        songList.add(song)
+                    }
+                }
+                callback(songList)
+            }
         })
     }
 }
