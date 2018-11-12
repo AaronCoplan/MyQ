@@ -7,4 +7,27 @@
         android:layout_height="match_parent"
         tools:context=".QueueCreateOrJoinActivity">
 
+    <Button
+            android:text="@string/queue_create_or_join_activity_create_button_text"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:id="@+id/createQueueButton" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline3" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+    <android.support.constraint.Guideline
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintGuide_percent="0.5"/>
+    <Button
+            android:text="@string/queue_create_or_join_activity_join_button_text"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:id="@+id/joinQueueButton" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="@+id/guideline3" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"/>
 </android.support.constraint.ConstraintLayout>
