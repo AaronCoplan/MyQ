@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Switch
@@ -123,24 +124,38 @@ class LoginActivity : AppCompatActivity() {
             val password = passwordEditText.text.toString()
 
             if(!isUsernameOrPasswordEmpty(username, password)) {
-                firebaseAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener { task ->
-                    if(task.isSuccessful) {
-                        makeToast("Signed up successfully!", this)
-                        advanceToNextActivity()
-                    } else {
-                        val exception = task.exception
-                        if(exception != null) {
-                            exception.printStackTrace()
-                            if(exception is FirebaseAuthUserCollisionException) {
-                                makeToast("User already signed up!  Please login.", this)
-                            } else {
-                                makeToast("Signup failed!  Please try again.", this)
+                val confirmPasswordEditText = EditText(this)
+                AlertDialog.Builder(this)
+                    .setTitle("Confirm Password")
+                    .setMessage("Please re-enter your password to finish signing up!")
+                    .setView(confirmPasswordEditText)
+                    .setPositiveButton("Sign Up") { _, which ->
+                        val confirmPassword = confirmPasswordEditText.text.toString()
+                        if(!confirmPassword.isNullOrEmpty() && !password.isNullOrEmpty() && password.equals(confirmPassword)) {
+                            firebaseAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener { task ->
+                                if(task.isSuccessful) {
+                                    makeToast("Signed up successfully!", this)
+                                    advanceToNextActivity()
+                                } else {
+                                    val exception = task.exception
+                                    if(exception != null) {
+                                        exception.printStackTrace()
+                                        if(exception is FirebaseAuthUserCollisionException) {
+                                            makeToast("User already signed up!  Please login.", this)
+                                        } else {
+                                            makeToast("Signup failed!  Please try again.", this)
+                                        }
+                                    } else {
+                                        makeToast("Signup failed!  Please try again.", this)
+                                    }
+                                }
                             }
                         } else {
-                            makeToast("Signup failed!  Please try again.", this)
+                            makeToast("Error: Passwords do not match!", this)
                         }
                     }
-                }
+                    .setNegativeButton("Cancel") { _, _ -> }
+                    .show()
             }
         }
     }
