@@ -80,7 +80,7 @@ class QueueViewActivity : AppCompatActivity() {
                         val playerState = playerStateResult.data
                         val timeDiff = playerState.track.duration - playerState.playbackPosition
                         println("Time Diff: $timeDiff")
-                        if(playerState.track.name != null && timeDiff != 0L && timeDiff < (50 * 1000)) {
+                        if(playerState.track.name != null && timeDiff != 0L && timeDiff < (10 * 1000)) {
                             println("Skip to next song")
                             QueueManager.popQueue { song ->
                                 if(song == null) {
