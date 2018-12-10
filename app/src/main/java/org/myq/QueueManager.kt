@@ -28,6 +28,10 @@ object QueueManager {
         return db.reference.child(user.uid)
     }
 
+    fun getActiveQueueID(): String? {
+        return activeQueueID
+    }
+
     private fun updateActiveQueueID(newActiveQueueID: String?) {
         println("\nUPDATED ACTIVE QUEUE ID: $newActiveQueueID\n")
         activeQueueID = newActiveQueueID

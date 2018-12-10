@@ -9,12 +9,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 class QueueViewActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyQueueTextView: TextView
     private lateinit var addButton: FloatingActionButton
+    private lateinit var currentUser: FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,15 @@ class QueueViewActivity : AppCompatActivity() {
 
         addButton.setOnClickListener {
             startActivity(Intent(this, SearchActivity::class.java))
+        }
+
+        val firebaseAuth = FirebaseAuth.getInstance()
+        val currentUser = firebaseAuth.currentUser
+
+        val activeQueueID = QueueManager.getActiveQueueID()
+        if(activeQueueID != null && activeQueueID.equals(currentUser!!.uid)) {
+            // you created the queue, initialize playback
+            SpotifyManager.connect(this, getString(R.string.spotify_client_id), getString(R.string.spotify_redirect_uri))
         }
 
         recyclerView.layoutManager = LinearLayoutManager(this)

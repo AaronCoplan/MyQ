@@ -28,7 +28,7 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        SpotifyManager.connect(this, getString(R.string.spotify_client_id), getString(R.string.spotify_redirect_uri))
+
 
         noSearchResultsTextView = findViewById(R.id.emptySearchResultsTextView)
         searchButton = findViewById(R.id.searchButton)
