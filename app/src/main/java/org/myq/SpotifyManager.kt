@@ -75,4 +75,15 @@ class SpotifyManager {
             }
         }
     }
+
+    fun searchTrack(query: String) {
+        val searchResults = api.searchTracks(query).tracks.items
+
+        if (searchResults != null) {
+            searchResults
+        } else {
+            Log.e("SpotifyManager", "No songs found!")
+            null
+        }
+    }
 }
