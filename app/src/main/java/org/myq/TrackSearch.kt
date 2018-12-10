@@ -18,6 +18,7 @@ class TrackSearch(
                 trackToSong(track)
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             null
         }
     }

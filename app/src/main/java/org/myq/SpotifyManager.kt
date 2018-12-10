@@ -1,10 +1,15 @@
 package org.myq
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
 import com.spotify.android.appremote.api.SpotifyAppRemote
+import com.spotify.sdk.android.authentication.AuthenticationClient
+import com.spotify.sdk.android.authentication.AuthenticationRequest
+import com.spotify.sdk.android.authentication.AuthenticationResponse
 import kaaes.spotify.webapi.android.SpotifyApi
 import kaaes.spotify.webapi.android.SpotifyService
 import kaaes.spotify.webapi.android.models.Track
@@ -42,8 +47,20 @@ object SpotifyManager {
         SpotifyAppRemote.setDebugMode(true)
         SpotifyAppRemote.connect(context, connectionParams, connectionListener)
 
+
         /* connect to Spotify Web API */
-        api = SpotifyApi().service
+
+
+
+        /*val x = SpotifyApi()
+        api = SpotifyApi()
+
+
+        api.*/
+    }
+
+    fun initSpotifyWeb(accessToken: String) {
+        api = SpotifyApi().setAccessToken(accessToken).service
     }
 
     /* call from onStop() */
