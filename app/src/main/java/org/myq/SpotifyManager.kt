@@ -6,23 +6,28 @@ import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
 import com.spotify.android.appremote.api.SpotifyAppRemote
 import com.spotify.protocol.types.Track
+import kaaes.spotify.webapi.android.SpotifyApi
+import kaaes.spotify.webapi.android.SpotifyService
 import java.sql.Connection
 
 class SpotifyManager {
     private lateinit var connectionParams: ConnectionParams
-    private lateinit var spotifyRemote: SpotifyAppRemote
+    private lateinit var remote: SpotifyAppRemote
+    private lateinit var api: SpotifyService
 
     private var isConnected = false
 
-    /* connect to spotify */
     /* call in onStart() */
+    /* connect to spotify */
     fun connect(context: Context, clientID: String, callbackURI: String) {
+
+        /* build connection parameters for Android SDK */
         connectionParams = ConnectionParams.Builder(clientID).setRedirectUri(callbackURI).showAuthView(true)
             .build()
 
         val connectionListener = object : Connector.ConnectionListener {
             override fun onConnected(spotifyAppRemote: SpotifyAppRemote) {
-                spotifyRemote = spotifyAppRemote
+                remote = spotifyAppRemote
                 Log.e("SpotifyManager", "Connected to Spotify!")
 
                 isConnected = true
@@ -33,28 +38,32 @@ class SpotifyManager {
             }
         }
 
+        /* connect to Spotify using Android SDK */
         SpotifyAppRemote.connect(context, connectionParams, connectionListener)
+
+        /* connect to Spotify Web API */
+        api = SpotifyApi().service
     }
 
+    /* call from onStop() */
     /* disconnect from spotify */
-    /* call in onStop() */
     fun disconnect() {
         if (isConnected) {
-            SpotifyAppRemote.disconnect(spotifyRemote)
+            SpotifyAppRemote.disconnect(remote)
         }
     }
 
     /* play song, playlist, etc. with given uri code */
     fun play(uri: String) {
         if (isConnected) {
-            spotifyRemote.playerApi.play(uri)
+            remote.playerApi.play(uri)
         }
     }
 
     /* fetch current track being played */
     fun getCurrentTrack() {
         if (isConnected) {
-            spotifyRemote.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
+            remote.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
                 val track = playerState.track
                 if (track != null) {
                     Log.e("SpotifyManager", track.name + " by " + track.artist.name)

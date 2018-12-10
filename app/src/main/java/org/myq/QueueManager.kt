@@ -8,9 +8,10 @@ import java.lang.ref.Reference
 
 data class Song (
     val title: String,
-    val artist: String
+    val artist: String,
+    val uri: String
 ) {
-    constructor() : this("", "")
+    constructor() : this("", "", "")
 }
 
 data class Queue (
