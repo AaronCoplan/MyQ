@@ -12,7 +12,7 @@ fun makeToast(msg: String, context: Context) {
 
 fun trackToSong(track: com.spotify.protocol.types.Track) {
     if (track != null) {
-        Song(track.name, track.artist, track.uri)
+        Song(track.name, track.artist.name, track.uri)
     } else {
         null
     }
