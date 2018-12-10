@@ -25,7 +25,7 @@ class QueueViewActivity : AppCompatActivity() {
         addButton = findViewById(R.id.plusButton)
 
         addButton.setOnClickListener {
-            startActivity(Intent(this, QueueCreateOrJoinActivity::class.java))
+            startActivity(Intent(this, SearchActivity::class.java))
         }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
