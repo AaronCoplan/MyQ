@@ -1,16 +1,20 @@
 package org.myq
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 
 class QueueViewActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyQueueTextView: TextView
+    private lateinit var addButton: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +22,11 @@ class QueueViewActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.queueViewRecyclerView)
         emptyQueueTextView = findViewById(R.id.emptyQueueTextView)
+        addButton = findViewById(R.id.plusButton)
+
+        addButton.setOnClickListener {
+            startActivity(Intent(this, QueueCreateOrJoinActivity::class.java))
+        }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
