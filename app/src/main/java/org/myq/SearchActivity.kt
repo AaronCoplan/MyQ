@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_queue_view.*
 
 class SearchActivity : AppCompatActivity() {
 
@@ -20,7 +19,7 @@ class SearchActivity : AppCompatActivity() {
 
         noSearchResultsTextView = findViewById(R.id.emptySearchResultsTextView)
 
-        songList = listOf(Song("sup", "adele", ""))
+        songList = ArrayList()
 
         recyclerView = findViewById(R.id.searchResultRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
