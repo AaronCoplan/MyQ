@@ -98,6 +98,32 @@ object QueueManager {
         })
     }
 
+    fun popQueue(callback: (Song?) -> Unit) {
+        val reference = db.reference.child("$activeQueueID/queue")
+        println("POP QUEUE")
+        reference.orderByKey().addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var i = 0
+                dataSnapshot.children.forEach { data ->
+                    if(i == 0) {
+                        val song = data.getValue(Song::class.java)
+                        data.ref.removeValue()
+                        callback.invoke(song)
+                        i++
+                    }
+                }
+            }
+        })
+        /*println(reference.limitToFirst(1).path)
+        println(reference.limitToFirst(1).ref)
+        println(reference.limitToFirst(1).ref.key)*/
+        //reference.child(firstChildKey!!).removeValue()
+    }
+
     fun putInQueue(song: Song) {
         val reference = db.reference.child("$activeQueueID/queue")
         reference.push().setValue(song)

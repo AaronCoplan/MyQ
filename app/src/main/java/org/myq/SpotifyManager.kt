@@ -7,6 +7,7 @@ import android.util.Log
 import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
 import com.spotify.android.appremote.api.SpotifyAppRemote
+import com.spotify.protocol.types.PlayerState
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
@@ -78,17 +79,33 @@ object SpotifyManager {
         }
     }
 
+    fun getCurrentTrack(): Song? {
+        if(remote == null) return null
+        val track = remote!!.playerApi.playerState.await().data.track
+        if(track == null) return null
+        return trackToSong(track)
+    }
+
+    fun getPlayerState(): com.spotify.protocol.client.Result<PlayerState>? {
+        if(remote == null) return null
+        return remote!!.playerApi.playerState.await()
+    }
+
     /* fetch current track being played */
-    fun getCurrentTrack() {
+    fun currentTrackSubscribe(callback: () -> Unit) {
         if (isConnected) {
+            //remote.playerApi.playerState.
             remote!!.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
-                val track = playerState.track
-                if (track != null) {
-                    Log.e("SpotifyManager", track.name + " by " + track.artist.name)
-                    track
-                } else {
-                    Log.e("SpotifyManager", "No song playing!")
-                    null
+                if(playerState.track == null || playerState.track.name == null) return@setEventCallback
+                println(playerState.track.duration)
+                println(playerState.playbackPosition)
+                if(playerState.track.duration - playerState.playbackPosition < (50 * 1000)) {
+                    var i = 0
+                    while(i < 100) {
+                        println("LESS THAN 50")
+                        i++
+                    }
+                    callback.invoke()
                 }
             }
         }

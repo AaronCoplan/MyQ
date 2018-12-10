@@ -9,12 +9,10 @@ fun makeToast(msg: String, context: Context) {
     toast.show()
 }
 
-fun trackToSong(track: com.spotify.protocol.types.Track) {
-    if (track != null) {
-        Song(track.name, track.artist.name, track.uri)
-    } else {
-        null
-    }
+fun trackToSong(track: com.spotify.protocol.types.Track): Song {
+
+        return Song(track.name, track.artist.name, track.uri)
+
 }
 
 fun trackToSong(track: Track): Song {
