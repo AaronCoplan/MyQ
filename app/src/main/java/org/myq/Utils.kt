@@ -2,7 +2,6 @@ package org.myq
 
 import android.content.Context
 import android.widget.Toast
-import com.spotify.protocol.types.Track
 import kaaes.spotify.webapi.android.models.Track
 
 fun makeToast(msg: String, context: Context) {
@@ -18,10 +17,6 @@ fun trackToSong(track: com.spotify.protocol.types.Track) {
     }
 }
 
-fun trackToSong(track: kaaes.spotify.webapi.android.models.Track) {
-    if (track != null) {
-        Song(track.name, track.artists[0].name, track.uri)
-    } else {
-        null
-    }
+fun trackToSong(track: Track): Song {
+    return Song(track.name, track.artists[0].name, track.uri)
 }

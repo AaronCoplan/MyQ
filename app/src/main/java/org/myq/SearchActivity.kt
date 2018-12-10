@@ -21,6 +21,8 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        SpotifyManager.webOnlyConnect()
+
         noSearchResultsTextView = findViewById(R.id.emptySearchResultsTextView)
         searchButton = findViewById(R.id.searchButton)
         searchEditText = findViewById(R.id.searchEditText)
@@ -31,6 +33,10 @@ class SearchActivity : AppCompatActivity() {
             searchEditText.isEnabled = false
 
             // do search
+            val trackList = SpotifyManager.searchTrack(searchText)
+            songList = trackList.map { track ->
+                trackToSong(track)
+            }
 
             searchButton.isEnabled = true
             searchEditText.isEnabled = true

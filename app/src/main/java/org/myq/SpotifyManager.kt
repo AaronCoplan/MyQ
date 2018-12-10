@@ -5,17 +5,22 @@ import android.util.Log
 import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
 import com.spotify.android.appremote.api.SpotifyAppRemote
-import com.spotify.protocol.types.Track
 import kaaes.spotify.webapi.android.SpotifyApi
 import kaaes.spotify.webapi.android.SpotifyService
+import kaaes.spotify.webapi.android.models.Track
 import java.sql.Connection
 
-class SpotifyManager {
+object SpotifyManager {
     private lateinit var connectionParams: ConnectionParams
     private lateinit var remote: SpotifyAppRemote
     private lateinit var api: SpotifyService
 
     private var isConnected = false
+
+    fun webOnlyConnect() {
+        /* connect to Spotify Web API */
+        api = SpotifyApi().service
+    }
 
     /* call in onStart() */
     /* connect to spotify */
@@ -76,14 +81,14 @@ class SpotifyManager {
         }
     }
 
-    fun searchTrack(query: String) {
+    fun searchTrack(query: String): List<Track> {
         val searchResults = api.searchTracks(query).tracks.items
 
         if (searchResults != null) {
-            searchResults
+            return searchResults
         } else {
             Log.e("SpotifyManager", "No songs found!")
-            null
+            return emptyList()
         }
     }
 }
