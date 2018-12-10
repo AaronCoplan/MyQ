@@ -12,15 +12,10 @@ import java.sql.Connection
 
 object SpotifyManager {
     private lateinit var connectionParams: ConnectionParams
-    private lateinit var remote: SpotifyAppRemote
-    private lateinit var api: SpotifyService
+    private var remote: SpotifyAppRemote? = null
+    private var api: SpotifyService? = null
 
     private var isConnected = false
-
-    fun webOnlyConnect() {
-        /* connect to Spotify Web API */
-        api = SpotifyApi().service
-    }
 
     /* call in onStart() */
     /* connect to spotify */
@@ -34,7 +29,6 @@ object SpotifyManager {
             override fun onConnected(spotifyAppRemote: SpotifyAppRemote) {
                 remote = spotifyAppRemote
                 Log.e("SpotifyManager", "Connected to Spotify!")
-
                 isConnected = true
             }
 
@@ -44,6 +38,8 @@ object SpotifyManager {
         }
 
         /* connect to Spotify using Android SDK */
+        if(remote == null) SpotifyAppRemote.disconnect(remote)
+        SpotifyAppRemote.setDebugMode(true)
         SpotifyAppRemote.connect(context, connectionParams, connectionListener)
 
         /* connect to Spotify Web API */
@@ -61,14 +57,14 @@ object SpotifyManager {
     /* play song, playlist, etc. with given uri code */
     fun play(uri: String) {
         if (isConnected) {
-            remote.playerApi.play(uri)
+            remote!!.playerApi.play(uri)
         }
     }
 
     /* fetch current track being played */
     fun getCurrentTrack() {
         if (isConnected) {
-            remote.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
+            remote!!.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
                 val track = playerState.track
                 if (track != null) {
                     Log.e("SpotifyManager", track.name + " by " + track.artist.name)
@@ -82,7 +78,7 @@ object SpotifyManager {
     }
 
     fun searchTrack(query: String): List<Track> {
-        val searchResults = api.searchTracks(query).tracks.items
+        val searchResults = api!!.searchTracks(query).tracks.items
 
         if (searchResults != null) {
             return searchResults
