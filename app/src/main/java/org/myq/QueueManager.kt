@@ -93,4 +93,9 @@ object QueueManager {
             }
         })
     }
+
+    fun putInQueue(song: Song) {
+        val reference = db.reference.child("$activeQueueID/queue")
+        reference.push().setValue(song)
+    }
 }

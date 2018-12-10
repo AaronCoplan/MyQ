@@ -35,7 +35,7 @@ class QueueViewActivity : AppCompatActivity() {
                 emptyQueueTextView.visibility = View.VISIBLE
                 recyclerView.visibility = View.GONE
             } else {
-                recyclerView.adapter = SongListAdapter(songList)
+                recyclerView.adapter = SongListAdapter(songList, null)
                 emptyQueueTextView.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
             }
