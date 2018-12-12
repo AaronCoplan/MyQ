@@ -28,8 +28,6 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-
-
         noSearchResultsTextView = findViewById(R.id.emptySearchResultsTextView)
         searchButton = findViewById(R.id.searchButton)
         searchEditText = findViewById(R.id.searchEditText)
@@ -75,8 +73,6 @@ class SearchActivity : AppCompatActivity() {
         println(response.error)
 
         if (0x10 === requestCode) {
-            //mAccessToken = response.accessToken
-            //updateTokenView()
             val accessToken = response.accessToken
             SpotifyManager.initSpotifyWeb(accessToken)
         }

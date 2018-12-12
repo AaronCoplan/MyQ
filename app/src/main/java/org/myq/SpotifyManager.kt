@@ -44,9 +44,9 @@ object SpotifyManager {
 
             override fun onFailure(throwable: Throwable) {
                 Log.e("SpotifyManager", throwable.message, throwable)
-                if(throwable is CouldNotFindSpotifyApp) {
+                if (throwable is CouldNotFindSpotifyApp) {
                     makeToast("Spotify App not installed!  Please install the App to play music!", context)
-                } else if(throwable is NotLoggedInException) {
+                } else if (throwable is NotLoggedInException) {
                     makeToast("Not signed in with Spotify!  Please sign in to the Spotify app to continue!", context)
                 } else {
                     makeToast("Failed to connect to Spotify!", context)
@@ -55,18 +55,9 @@ object SpotifyManager {
         }
 
         /* connect to Spotify using Android SDK */
-        if(remote == null) SpotifyAppRemote.disconnect(remote)
+        if (remote == null) SpotifyAppRemote.disconnect(remote)
         SpotifyAppRemote.setDebugMode(true)
         SpotifyAppRemote.connect(context, connectionParams, connectionListener)
-        /* connect to Spotify Web API */
-
-
-
-        /*val x = SpotifyApi()
-        api = SpotifyApi()
-
-
-        api.*/
     }
 
     fun initSpotifyWeb(accessToken: String) {
@@ -88,13 +79,6 @@ object SpotifyManager {
         }
     }
 
-    /*fun getCurrentTrack(): Song? {
-        if(remote == null) return null
-        val track = remote!!.playerApi.playerState.await().data.track
-        if(track == null) return null
-        return trackToSong(track)
-    }*/
-
     fun resume() {
         if(remote == null) return
         remote!!.playerApi.resume()
@@ -108,26 +92,6 @@ object SpotifyManager {
     fun getPlayerState(): com.spotify.protocol.client.Result<PlayerState>? {
         if(remote == null) return null
         return remote!!.playerApi.playerState.await()
-    }
-
-    /* fetch current track being played */
-    fun currentTrackSubscribe(callback: () -> Unit) {
-        if (isConnected) {
-            //remote.playerApi.playerState.
-            remote!!.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
-                if(playerState.track == null || playerState.track.name == null) return@setEventCallback
-                println(playerState.track.duration)
-                println(playerState.playbackPosition)
-                if(playerState.track.duration - playerState.playbackPosition < (50 * 1000)) {
-                    var i = 0
-                    while(i < 100) {
-                        println("LESS THAN 50")
-                        i++
-                    }
-                    callback.invoke()
-                }
-            }
-        }
     }
 
     fun searchTrack(query: String): List<Track> {

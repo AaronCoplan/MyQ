@@ -119,10 +119,6 @@ object QueueManager {
                 }
             }
         })
-        /*println(reference.limitToFirst(1).path)
-        println(reference.limitToFirst(1).ref)
-        println(reference.limitToFirst(1).ref.key)*/
-        //reference.child(firstChildKey!!).removeValue()
     }
 
     fun putInQueue(song: Song) {

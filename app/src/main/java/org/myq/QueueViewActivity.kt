@@ -79,26 +79,14 @@ class QueueViewActivity : AppCompatActivity() {
         val firebaseAuth = FirebaseAuth.getInstance()
         val currentUser = firebaseAuth.currentUser
         val activeQueueID = QueueManager.getActiveQueueID()
-        /*SpotifyManager.currentTrackSubscribe {
-            QueueManager.popQueue { song ->
-                if (song == null) {
-                    println("[NOTHING PLAYING] Song is null")
-                } else {
-                    currentSong = song
-                    SpotifyManager.play(song.uri)
-                    println("[PLAYING SONG] ${song.title}")
-                }
-            }
-        }*/
+
         if(activeQueueID != null && activeQueueID.equals(currentUser!!.uid)) {
             // you created the queue, initialize playback
-
             SpotifyManager.connect(
                     this,
                     getString(R.string.spotify_client_id),
                     getString(R.string.spotify_redirect_uri)
             )
-
 
             var skipNextIteration = false
             Thread({
@@ -145,43 +133,10 @@ class QueueViewActivity : AppCompatActivity() {
                             }
                         }
                     }
-                    /*if(currentSong == null && !isFirst) {
-                        QueueManager.popQueue { song ->
-                            if(song == null) {
-                                println("[NOTHING PLAYING] Song is null")
-                            } else {
-                                currentSong = song
-                                SpotifyManager.play(song.uri)
-                                println("[PLAYING SONG] ${song.title}")
-                            }
-                        }
-                    } else {
-                        println("[NULL] Things are playing, wait for next loop!")
-                    }
-                    if(!isFirst) {
-                        SpotifyManager.currentTrackSubscribe {
-                            QueueManager.popQueue { song ->
-                                if(song == null) {
-                                    println("[NOTHING PLAYING] Song is null")
-                                } else {
-                                    currentSong = song
-                                    SpotifyManager.play(song.uri)
-                                    println("[PLAYING SONG] ${song.title}")
-                                }
-                            }
-                            isFirst = true
-                        }
-                    }*/
-
-
                 }
             }).start()
         } else {
-            var i = 0
-            while(i < 100) {
-                println("YOU DONT OWN THE QUEUE")
-                i++
-            }
+            println("YOU DONT OWN THE QUEUE")
         }
     }
 }
