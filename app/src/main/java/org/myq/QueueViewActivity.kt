@@ -46,7 +46,7 @@ class QueueViewActivity : AppCompatActivity() {
         nextButton.setOnClickListener {
             QueueManager.popQueue { song ->
                 if(song == null) {
-                    println("[NOTHING PLAYING] Song is null")
+                    makeToast("No next song to play!  Please add more songs to the queue.", this)
                 } else {
                     currentSong = song
                     SpotifyManager.play(song.uri)
