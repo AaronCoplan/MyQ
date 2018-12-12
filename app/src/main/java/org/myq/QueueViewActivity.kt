@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.crashlytics.android.Crashlytics
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -23,27 +24,32 @@ class QueueViewActivity : AppCompatActivity() {
     private lateinit var nextButton: FloatingActionButton
     private lateinit var currentUser: FirebaseUser
     private var currentSong: Song? = null
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_queue_view)
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         recyclerView = findViewById(R.id.queueViewRecyclerView)
         emptyQueueTextView = findViewById(R.id.emptyQueueTextView)
 
         addButton = findViewById(R.id.plusButton)
         addButton.setOnClickListener {
-            Crashlytics.getInstance().crash()
+            firebaseAnalytics.logEvent("add_button_click", null)
             startActivity(Intent(this, SearchActivity::class.java))
         }
 
         playButton = findViewById(R.id.playButton)
         playButton.setOnClickListener {
+            firebaseAnalytics.logEvent("play_button_click", null)
             SpotifyManager.resume()
         }
 
         pauseButton = findViewById(R.id.pauseButton)
         pauseButton.setOnClickListener {
+            firebaseAnalytics.logEvent("pause_button_click", null)
             SpotifyManager.pause()
         }
 
@@ -51,8 +57,14 @@ class QueueViewActivity : AppCompatActivity() {
         nextButton.setOnClickListener {
             QueueManager.popQueue { song ->
                 if(song == null) {
+                    val bundle = Bundle()
+                    bundle.putBoolean("queue_is_empty", true)
+                    firebaseAnalytics.logEvent("next_button_click", bundle)
                     makeToast("No next song to play!  Please add more songs to the queue.", this)
                 } else {
+                    val bundle = Bundle()
+                    bundle.putBoolean("queue_is_empty", false)
+                    firebaseAnalytics.logEvent("next_button_click", bundle)
                     currentSong = song
                     SpotifyManager.play(song.uri)
                     println("[PLAYING SONG] ${song.title}")

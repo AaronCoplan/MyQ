@@ -14,9 +14,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.crashlytics.android.Crashlytics
+import com.google.firebase.analytics.FirebaseAnalytics
 import io.fabric.sdk.android.Fabric
-
-
 
 class LoginActivity : AppCompatActivity() {
 
@@ -29,12 +28,14 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var signupButton: Button
     private lateinit var rememberUsernameSwitch: Switch
     private lateinit var rememberPasswordSwitch: Switch
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_login)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAuth = FirebaseAuth.getInstance()
 
         // FIXME: REMOVE DEBUG HACK
@@ -103,10 +104,18 @@ class LoginActivity : AppCompatActivity() {
             if(!isUsernameOrPasswordEmpty(username, password)) {
                 firebaseAuth.signInWithEmailAndPassword(username, password)
                     .addOnSuccessListener { result ->
+                        val bundle = Bundle()
+                        bundle.putBoolean("login_success", true)
+                        firebaseAnalytics.logEvent("login", bundle)
+
                         makeToast("Logged in successfully!", this)
                         advanceToNextActivity()
                     }
                     .addOnFailureListener { exception ->
+                        val bundle = Bundle()
+                        bundle.putBoolean("login_success", false)
+                        firebaseAnalytics.logEvent("login", bundle)
+
                         exception.printStackTrace()
                         when(exception) {
                             is FirebaseAuthInvalidCredentialsException -> {
@@ -139,9 +148,17 @@ class LoginActivity : AppCompatActivity() {
                         if(!confirmPassword.isNullOrEmpty() && !password.isNullOrEmpty() && password.equals(confirmPassword)) {
                             firebaseAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener { task ->
                                 if(task.isSuccessful) {
+                                    val bundle = Bundle()
+                                    bundle.putBoolean("signup_success", true)
+                                    firebaseAnalytics.logEvent("signup", bundle)
+
                                     makeToast("Signed up successfully!", this)
                                     advanceToNextActivity()
                                 } else {
+                                    val bundle = Bundle()
+                                    bundle.putBoolean("signup_success", false)
+                                    firebaseAnalytics.logEvent("signup", bundle)
+
                                     val exception = task.exception
                                     if(exception != null) {
                                         exception.printStackTrace()
