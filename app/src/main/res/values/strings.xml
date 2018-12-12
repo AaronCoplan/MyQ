@@ -15,5 +15,10 @@
     <string name="queue_create_or_join_activity_join_button_text">Join a Queue</string>
 
     <!-- QueueViewActivity Strings -->
-    <string name="queue_view_activity_empty_queue">Empty Queue!  Add some songs to get started.</string>
+    <string name="queue_view_activity_empty_queue">Empty Queue! Add some songs to get started.</string>
+
+    <!-- SearchActivity Strings -->
+    <string name="no_search_results">No Search Results!</string>
+    <string name="search_hint">Search for song...</string>
+    <string name="search_button_text">Search</string>
 </resources>

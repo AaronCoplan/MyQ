@@ -2,6 +2,7 @@
 app/google-services.json
 .gradle
 /local.properties
+/spotify.xml
 .idea/
 /.idea/caches/build_file_checksums.ser
 /.idea/libraries
@@ -11,3 +12,4 @@ app/google-services.json
 /build
 /captures
 .externalNativeBuild
+spotify.xml

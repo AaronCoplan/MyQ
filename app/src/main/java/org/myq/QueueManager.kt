@@ -8,9 +8,11 @@ import java.lang.ref.Reference
 
 data class Song (
     val title: String,
-    val artist: String
+    val artist: String,
+    val uri: String,
+    val imageURIs: List<String>
 ) {
-    constructor() : this("", "")
+    constructor() : this("", "", "", emptyList())
 }
 
 data class Queue (
@@ -25,6 +27,10 @@ object QueueManager {
 
     private fun getQueueReference(user: FirebaseUser): DatabaseReference {
         return db.reference.child(user.uid)
+    }
+
+    fun getActiveQueueID(): String? {
+        return activeQueueID
     }
 
     private fun updateActiveQueueID(newActiveQueueID: String?) {
@@ -91,5 +97,32 @@ object QueueManager {
                 callback(songList)
             }
         })
+    }
+
+    fun popQueue(callback: (Song?) -> Unit) {
+        val reference = db.reference.child("$activeQueueID/queue")
+        println("POP QUEUE")
+        reference.orderByKey().addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var i = 0
+                dataSnapshot.children.forEach { data ->
+                    if(i == 0) {
+                        val song = data.getValue(Song::class.java)
+                        data.ref.removeValue()
+                        callback.invoke(song)
+                        i++
+                    }
+                }
+            }
+        })
+    }
+
+    fun putInQueue(song: Song) {
+        val reference = db.reference.child("$activeQueueID/queue")
+        reference.push().setValue(song)
     }
 }

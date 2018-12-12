@@ -36,4 +36,43 @@
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="gone"/>
 
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/plusButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_black_24dp"
+            android:tint="@android:color/white"
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_skip_next_black_24dp"
+            android:tint="@android:color/white"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/plusButton" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/playButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_play_arrow_black_24dp"
+            android:tint="@android:color/white"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/pauseButton" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/pauseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_pause_black_24dp"
+            android:tint="@android:color/white"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/nextButton" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
 </android.support.constraint.ConstraintLayout>
