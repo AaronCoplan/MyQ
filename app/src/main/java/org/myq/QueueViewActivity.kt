@@ -8,12 +8,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.spotify.android.appremote.api.error.CouldNotFindSpotifyApp
-import kotlinx.android.synthetic.main.activity_login.view.*
 
 class QueueViewActivity : AppCompatActivity() {
 
