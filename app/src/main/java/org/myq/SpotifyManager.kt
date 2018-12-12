@@ -88,12 +88,12 @@ object SpotifyManager {
         }
     }
 
-    fun getCurrentTrack(): Song? {
+    /*fun getCurrentTrack(): Song? {
         if(remote == null) return null
         val track = remote!!.playerApi.playerState.await().data.track
         if(track == null) return null
         return trackToSong(track)
-    }
+    }*/
 
     fun resume() {
         if(remote == null) return
