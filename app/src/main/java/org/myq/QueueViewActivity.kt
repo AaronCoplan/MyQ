@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.spotify.android.appremote.api.error.CouldNotFindSpotifyApp
 import kotlinx.android.synthetic.main.activity_login.view.*
 
 class QueueViewActivity : AppCompatActivity() {
@@ -18,6 +20,8 @@ class QueueViewActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyQueueTextView: TextView
     private lateinit var addButton: FloatingActionButton
+    private lateinit var playButton: FloatingActionButton
+    private lateinit var nextButton: FloatingActionButton
     private lateinit var currentUser: FirebaseUser
     private var currentSong: Song? = null
 
@@ -27,10 +31,28 @@ class QueueViewActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.queueViewRecyclerView)
         emptyQueueTextView = findViewById(R.id.emptyQueueTextView)
-        addButton = findViewById(R.id.plusButton)
 
+        addButton = findViewById(R.id.plusButton)
         addButton.setOnClickListener {
             startActivity(Intent(this, SearchActivity::class.java))
+        }
+
+        playButton = findViewById(R.id.playButton)
+        playButton.setOnClickListener {
+            SpotifyManager.resume()
+        }
+
+        nextButton = findViewById(R.id.nextButton)
+        nextButton.setOnClickListener {
+            QueueManager.popQueue { song ->
+                if(song == null) {
+                    println("[NOTHING PLAYING] Song is null")
+                } else {
+                    currentSong = song
+                    SpotifyManager.play(song.uri)
+                    println("[PLAYING SONG] ${song.title}")
+                }
+            }
         }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -64,7 +86,13 @@ class QueueViewActivity : AppCompatActivity() {
         }*/
         if(activeQueueID != null && activeQueueID.equals(currentUser!!.uid)) {
             // you created the queue, initialize playback
-            SpotifyManager.connect(this, getString(R.string.spotify_client_id), getString(R.string.spotify_redirect_uri))
+
+            SpotifyManager.connect(
+                    this,
+                    getString(R.string.spotify_client_id),
+                    getString(R.string.spotify_redirect_uri)
+            )
+
 
             var skipNextIteration = false
             Thread({
@@ -76,12 +104,13 @@ class QueueViewActivity : AppCompatActivity() {
                     }
                     println("hi aaron")
                     val playerStateResult = SpotifyManager.getPlayerState()
-                    if(playerStateResult != null && playerStateResult.isSuccessful) {
+                    if(playerStateResult == null) {
+                        // pretty sure at this point you will be disconnected and need to reconnect
+                        Log.e("PlayerThread", "Player result is null, pretty sure you are disconnected")
+                    } else if(playerStateResult != null && playerStateResult.isSuccessful) {
                         val playerState = playerStateResult.data
-                        val timeDiff = playerState.track.duration - playerState.playbackPosition
-                        println("Time Diff: $timeDiff")
-                        if(playerState.track.name != null && timeDiff != 0L && timeDiff < (10 * 1000)) {
-                            println("Skip to next song")
+                        if(playerState.track == null) {
+                            println("Track is null, play next song")
                             QueueManager.popQueue { song ->
                                 if(song == null) {
                                     println("[NOTHING PLAYING] Song is null")
@@ -90,6 +119,22 @@ class QueueViewActivity : AppCompatActivity() {
                                     currentSong = song
                                     SpotifyManager.play(song.uri)
                                     println("[PLAYING SONG] ${song.title}")
+                                }
+                            }
+                        } else {
+                            val timeDiff = playerState.track.duration - playerState.playbackPosition
+                            println("Time Diff: $timeDiff")
+                            if(playerState.track.name != null && timeDiff != 0L && timeDiff < (10 * 1000)) {
+                                println("Skip to next song")
+                                QueueManager.popQueue { song ->
+                                    if(song == null) {
+                                        println("[NOTHING PLAYING] Song is null")
+                                    } else {
+                                        skipNextIteration = true
+                                        currentSong = song
+                                        SpotifyManager.play(song.uri)
+                                        println("[PLAYING SONG] ${song.title}")
+                                    }
                                 }
                             }
                         }

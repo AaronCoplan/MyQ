@@ -7,6 +7,9 @@ import android.util.Log
 import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
 import com.spotify.android.appremote.api.SpotifyAppRemote
+import com.spotify.android.appremote.api.error.CouldNotFindSpotifyApp
+import com.spotify.android.appremote.api.error.NotLoggedInException
+import com.spotify.protocol.client.error.RemoteClientException
 import com.spotify.protocol.types.PlayerState
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
@@ -35,11 +38,19 @@ object SpotifyManager {
             override fun onConnected(spotifyAppRemote: SpotifyAppRemote) {
                 remote = spotifyAppRemote
                 Log.e("SpotifyManager", "Connected to Spotify!")
+                makeToast("Connected to Spotify", context)
                 isConnected = true
             }
 
             override fun onFailure(throwable: Throwable) {
                 Log.e("SpotifyManager", throwable.message, throwable)
+                if(throwable is CouldNotFindSpotifyApp) {
+                    makeToast("Spotify App not installed!  Please install the App to play music!", context)
+                } else if(throwable is NotLoggedInException) {
+                    makeToast("Not signed in with Spotify!  Please sign in to the Spotify app to continue!", context)
+                } else {
+                    makeToast("Failed to connect to Spotify!", context)
+                }
             }
         }
 
@@ -47,8 +58,6 @@ object SpotifyManager {
         if(remote == null) SpotifyAppRemote.disconnect(remote)
         SpotifyAppRemote.setDebugMode(true)
         SpotifyAppRemote.connect(context, connectionParams, connectionListener)
-
-
         /* connect to Spotify Web API */
 
 
@@ -84,6 +93,11 @@ object SpotifyManager {
         val track = remote!!.playerApi.playerState.await().data.track
         if(track == null) return null
         return trackToSong(track)
+    }
+
+    fun resume() {
+        if(remote == null) return
+        remote!!.playerApi.resume()
     }
 
     fun getPlayerState(): com.spotify.protocol.client.Result<PlayerState>? {
