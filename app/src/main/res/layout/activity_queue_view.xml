@@ -62,6 +62,16 @@
             android:src="@drawable/ic_play_arrow_black_24dp"
             android:tint="@android:color/white"
             android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/pauseButton" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/pauseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_pause_black_24dp"
+            android:tint="@android:color/white"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/nextButton" android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"/>
 

@@ -21,6 +21,7 @@ class QueueViewActivity : AppCompatActivity() {
     private lateinit var emptyQueueTextView: TextView
     private lateinit var addButton: FloatingActionButton
     private lateinit var playButton: FloatingActionButton
+    private lateinit var pauseButton: FloatingActionButton
     private lateinit var nextButton: FloatingActionButton
     private lateinit var currentUser: FirebaseUser
     private var currentSong: Song? = null
@@ -40,6 +41,11 @@ class QueueViewActivity : AppCompatActivity() {
         playButton = findViewById(R.id.playButton)
         playButton.setOnClickListener {
             SpotifyManager.resume()
+        }
+
+        pauseButton = findViewById(R.id.pauseButton)
+        pauseButton.setOnClickListener {
+            SpotifyManager.pause()
         }
 
         nextButton = findViewById(R.id.nextButton)

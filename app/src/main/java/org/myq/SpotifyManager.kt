@@ -100,6 +100,11 @@ object SpotifyManager {
         remote!!.playerApi.resume()
     }
 
+    fun pause() {
+        if(remote == null) return
+        remote!!.playerApi.pause()
+    }
+
     fun getPlayerState(): com.spotify.protocol.client.Result<PlayerState>? {
         if(remote == null) return null
         return remote!!.playerApi.playerState.await()
