@@ -10,10 +10,6 @@ fun makeToast(msg: String, context: Context) {
     toast.show()
 }
 
-/*fun trackToSong(track: com.spotify.protocol.types.Track): Song {
-    return Song(track.name, track.artist.name, track.uri)
-}*/
-
 fun trackToSong(track: Track): Song {
     var imageURIs = track.album.images.map { image ->
         image.url
