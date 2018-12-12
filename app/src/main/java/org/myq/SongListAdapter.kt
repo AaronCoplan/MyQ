@@ -4,7 +4,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import com.squareup.picasso.Picasso
 
 class SongListAdapter(private val songs: List<Song>, private val rowClickListener: ((Song) -> Unit)?): RecyclerView.Adapter<SongListAdapter.ViewHolder>() {
 
@@ -26,6 +28,7 @@ class SongListAdapter(private val songs: List<Song>, private val rowClickListene
         val currentSong = songs[p1]
         p0.titleTextView.text = currentSong.title
         p0.artistTextView.text = currentSong.artist
+        Picasso.get().load(currentSong.imageURIs[0]).into(p0.albumArtImageView)
         p0.itemView.setOnClickListener {
             if(rowClickListener != null) {
                 rowClickListener.invoke(currentSong)
@@ -34,6 +37,7 @@ class SongListAdapter(private val songs: List<Song>, private val rowClickListene
     }
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        val albumArtImageView: ImageView = view.findViewById(R.id.icon)
         val titleTextView: TextView = view.findViewById(R.id.title)
         val artistTextView: TextView = view.findViewById(R.id.artist)
     }
