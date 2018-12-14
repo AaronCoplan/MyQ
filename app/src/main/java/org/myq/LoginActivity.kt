@@ -6,6 +6,8 @@ import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.text.InputType
+import android.text.method.PasswordTransformationMethod
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Switch
@@ -139,6 +141,8 @@ class LoginActivity : AppCompatActivity() {
 
             if(!isUsernameOrPasswordEmpty(username, password)) {
                 val confirmPasswordEditText = EditText(this)
+                confirmPasswordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
+
                 AlertDialog.Builder(this)
                     .setTitle("Confirm Password")
                     .setMessage("Please re-enter your password to finish signing up!")

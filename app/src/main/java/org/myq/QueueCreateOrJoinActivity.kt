@@ -44,6 +44,7 @@ class QueueCreateOrJoinActivity : AppCompatActivity() {
                     .show()
             }) {
                 QueueManager.createQueue(user = currentUser)
+                advanceToNextActivity()
             }
         }
 
