@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyQ</string>
+    <string name="login_activity_username_hint">Usuario</string>
+    <string name="login_activity_password_hint">Contraseña</string>
+    <string name="login_activity_login_button_text">Iniciar Sesión</string>
+    <string name="login_activity_signup_button_text">Regístrate</string>
+    <string name="login_activity_remember_username_text">"Recordar Usuario "</string>
+    <string name="login_activity_remember_password_text">Recordar Contraseña</string>
+    <string name="queue_create_or_join_activity_create_button_text">Crear una Cola</string>
+    <string name="queue_create_or_join_activity_join_button_text">Unirse a una Cola</string>
+    <string name="queue_view_activity_empty_queue">Cola vacía! Agrega algunas canciones para empezar.</string>
+    <string name="no_search_results">No Hay Resultados de Búsqueda</string>
+    <string name="search_hint">Búsqueda de Canción...</string>
+    <string name="search_button_text">Buscar</string>
+    <string name="login_success">Ha Iniciado Sesión Correctamente</string>
+    <string name="login_failure">Error de Inicio de Sesion</string>
+    <string name="login_bad_credentials">" Error de inicio de sesión: ¡El correo electrónico o la contraseña no
+        coinciden! "
+    </string>
+    <string name="login_error">Error de inicio de sesion: %message$S</string>
+    <string name="signup_success">Registrado con Éxito!</string>
+    <string name="signup_fail">¡Registro Fallido! Inténtalo de Nuevo.</string>
+    <string name="signup_dup">Usuario ya se ha Registrado! Por Favor Iniciar Sesión.</string>
+    <string name="user_empty">¡El usuario no puede estar vacío!</string>
+    <string name="password_empty">¡La Contraseña no Puede Estar Vacía!</string>
+    <string name="rejoin_error">Error: Error al volver a unirse a la cola!</string>
+    <string name="join_error">Error: Error al unir la cola con el código dado!</string>
+    <string name="no_song_error">No hay próxima canción para jugar! Por favor agregue más canciones a la cola.</string>
+    <string name="update_fail">Error: Error al actualizar la lista de canciones!</string>
+    <string name="confirm_password">Registrado con Éxito!</string>
+    <string name="reenter_password">Por Favor Vuelva a Ingresar su Contraseña para Terminar de Registrarse</string>
+    <string name="signup">Regístrate</string>
+    <string name="mismatch_password">Error: ¡Las Contraseñas no Coinciden!</string>
+    <string name="cancel">Cancelar</string>
+    <string name="queue_exists">Existe Cola</string>
+</resources>

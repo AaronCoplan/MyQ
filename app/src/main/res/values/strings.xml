@@ -2,7 +2,7 @@
     <string name="app_name">MyQ</string>
 
     <!-- LoginActivity Strings -->
-    <string name="login_activity_title">MyQ</string>
+    <string name="login_activity_title" translatable="false">MyQ</string>
     <string name="login_activity_username_hint">Username</string>
     <string name="login_activity_password_hint">Password</string>
     <string name="login_activity_login_button_text">Login</string>
@@ -21,4 +21,34 @@
     <string name="no_search_results">No Search Results!</string>
     <string name="search_hint">Search for song...</string>
     <string name="search_button_text">Search</string>
+
+    <!-- Toast Strings -->
+    <string name="login_success">Logged in successfully!</string>
+    <string name="login_failure">Login Failed</string>
+    <string name="login_error">Login Failed: %message$S</string>
+    <string name="login_bad_credentials">Login Failed: Email or password did not match!</string>
+    <string name="signup_success">Signed up successfully!</string>
+    <string name="signup_fail">Signup failed! Please try again.</string>
+    <string name="signup_dup">User already signed up! Please login.</string>
+    <string name="user_empty">Username cannot be empty!</string>
+    <string name="password_empty">Password cannot be empty!</string>
+    <string name="rejoin_error">Error: Failed to rejoin queue!</string>
+    <string name="join_error">Error: Failed to join queue with given code!</string>
+    <string name="no_song_error">No next song to play! Please add more songs to the queue.</string>
+    <string name="update_fail">Error: Failed to update song list!</string>
+
+    <!-- Dialog Strings -->
+    <string name="confirm_password">Confirm Password</string>
+    <string name="reenter_password">Please re-enter your password to finish signing up</string>
+    <string name="signup">Sign Up</string>
+    <string name="mismatch_password">Error: Passwords do not match!</string>
+    <string name="cancel">Cancel</string>
+    <string name="queue_exists">Queue Exists</string>
+    <string name="rejoin_or_replace">Would you like to REJOIN the existing queue or REPLACE with a new queue?</string>
+    <string name="rejoin">Rejoin</string>
+    <string name="replace">Replace</string>
+    <string name="join_queue">Join a Queue</string>
+    <string name="enter_code">Enter the join code for the queue you would like to join!</string>
+    <
+
 </resources>

@@ -108,7 +108,7 @@ class LoginActivity : AppCompatActivity() {
                         bundle.putBoolean("login_success", true)
                         firebaseAnalytics.logEvent("login", bundle)
 
-                        makeToast("Logged in successfully!", this)
+                        makeToast(getString(R.string.login_success), this)
                         advanceToNextActivity()
                     }
                     .addOnFailureListener { exception ->
@@ -119,13 +119,13 @@ class LoginActivity : AppCompatActivity() {
                         exception.printStackTrace()
                         when(exception) {
                             is FirebaseAuthInvalidCredentialsException -> {
-                                makeToast("Login Failed: ${exception.message}", this)
+                                makeToast(getString(R.string.login_error, exception.message), this)
                             }
                             is FirebaseAuthInvalidUserException -> {
-                                makeToast("Login Failed: Email or password did not match!", this)
+                                makeToast(getString(R.string.login_bad_credentials), this)
                             }
                             else -> {
-                                makeToast("Login Failed!", this)
+                                makeToast(getString(R.string.login_failure), this)
                             }
                         }
 
@@ -140,10 +140,10 @@ class LoginActivity : AppCompatActivity() {
             if(!isUsernameOrPasswordEmpty(username, password)) {
                 val confirmPasswordEditText = EditText(this)
                 AlertDialog.Builder(this)
-                    .setTitle("Confirm Password")
-                    .setMessage("Please re-enter your password to finish signing up!")
+                    .setTitle(getString(R.string.confirm_password))
+                    .setMessage(getString(R.string.reenter_password))
                     .setView(confirmPasswordEditText)
-                    .setPositiveButton("Sign Up") { _, which ->
+                    .setPositiveButton(getString(getString(R.string.signup))) { _, which ->
                         val confirmPassword = confirmPasswordEditText.text.toString()
                         if(!confirmPassword.isNullOrEmpty() && !password.isNullOrEmpty() && password.equals(confirmPassword)) {
                             firebaseAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener { task ->
@@ -152,7 +152,7 @@ class LoginActivity : AppCompatActivity() {
                                     bundle.putBoolean("signup_success", true)
                                     firebaseAnalytics.logEvent("signup", bundle)
 
-                                    makeToast("Signed up successfully!", this)
+                                    makeToast(getString(R.string.signup_success), this)
                                     advanceToNextActivity()
                                 } else {
                                     val bundle = Bundle()
@@ -163,20 +163,20 @@ class LoginActivity : AppCompatActivity() {
                                     if(exception != null) {
                                         exception.printStackTrace()
                                         if(exception is FirebaseAuthUserCollisionException) {
-                                            makeToast("User already signed up!  Please login.", this)
+                                            makeToast(getString(R.string.signup_dup), this)
                                         } else {
-                                            makeToast("Signup failed!  Please try again.", this)
+                                            makeToast(getString(R.string.signup_fail), this)
                                         }
                                     } else {
-                                        makeToast("Signup failed!  Please try again.", this)
+                                        makeToast(getString(R.string.signup_fail), this)
                                     }
                                 }
                             }
                         } else {
-                            makeToast("Error: Passwords do not match!", this)
+                            makeToast(getString(R.string.mismatch_password), this)
                         }
                     }
-                    .setNegativeButton("Cancel") { _, _ -> }
+                    .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
                     .show()
             }
         }
@@ -184,10 +184,10 @@ class LoginActivity : AppCompatActivity() {
 
     private fun isUsernameOrPasswordEmpty(username: String, password: String): Boolean {
         if(username.isNullOrEmpty()) {
-            makeToast("Username cannot be empty!", this)
+            makeToast(getString(R.string.user_empty), this)
             return true
         } else if(password.isNullOrEmpty()) {
-            makeToast("Password cannot be empty!", this)
+            makeToast(getString(R.string.password_empty), this)
             return true
         } else {
             return false

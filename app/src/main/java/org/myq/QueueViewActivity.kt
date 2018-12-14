@@ -49,7 +49,7 @@ class QueueViewActivity : AppCompatActivity() {
 
         pauseButton = findViewById(R.id.pauseButton)
         pauseButton.setOnClickListener {
-            firebaseAnalytics.logEvent("pause_button_click", null)
+            firebaseAnalytics.logEvent("pause_ button_click", null)
             SpotifyManager.pause()
         }
 
@@ -60,7 +60,7 @@ class QueueViewActivity : AppCompatActivity() {
                     val bundle = Bundle()
                     bundle.putBoolean("queue_is_empty", true)
                     firebaseAnalytics.logEvent("next_button_click", bundle)
-                    makeToast("No next song to play!  Please add more songs to the queue.", this)
+                    makeToast(getString(R.string.no_song_error), this)
                 } else {
                     val bundle = Bundle()
                     bundle.putBoolean("queue_is_empty", false)
@@ -84,7 +84,7 @@ class QueueViewActivity : AppCompatActivity() {
                 recyclerView.visibility = View.VISIBLE
             }
         }, failureCallback = {
-            makeToast("Error: Failed to update song list!", this)
+            makeToast(getString(R.string.update_fail), this)
         })
 
         val firebaseAuth = FirebaseAuth.getInstance()
@@ -107,7 +107,6 @@ class QueueViewActivity : AppCompatActivity() {
                         skipNextIteration = false
                         continue
                     }
-                    println("hi aaron")
                     val playerStateResult = SpotifyManager.getPlayerState()
                     if(playerStateResult == null) {
                         // pretty sure at this point you will be disconnected and need to reconnect
