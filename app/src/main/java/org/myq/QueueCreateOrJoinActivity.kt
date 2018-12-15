@@ -28,16 +28,16 @@ class QueueCreateOrJoinActivity : AppCompatActivity() {
         createQueueButton.setOnClickListener {
             QueueManager.hasOwnQueue(user = currentUser, ifQueueExists = {
                 AlertDialog.Builder(this)
-                    .setTitle("Queue Exists")
-                    .setMessage("Would you like to REJOIN the existing queue or REPLACE with a new queue?")
-                    .setNeutralButton("Rejoin") { _, _ ->
+                    .setTitle(getString(R.string.queue_exists))
+                    .setMessage(R.string.rejoin_or_replace)
+                    .setNeutralButton(getString(R.string.rejoin)) { _, _ ->
                         QueueManager.joinQueue(currentUser.uid, onSuccess = {
                             advanceToNextActivity()
                         }, onFailure = {
-                            makeToast("Error: Failed to rejoin queue!", this)
+                            makeToast(getString(R.string.rejoin_error), this)
                         })
                     }
-                    .setPositiveButton("Replace") { _, _ ->
+                    .setPositiveButton(getString(R.string.replace)) { _, _ ->
                         QueueManager.createQueue(user = currentUser)
                         advanceToNextActivity()
                     }
@@ -51,18 +51,18 @@ class QueueCreateOrJoinActivity : AppCompatActivity() {
         joinQueueButton.setOnClickListener {
             val joinCodeEditText = EditText(this)
             AlertDialog.Builder(this)
-                .setTitle("Join a Queue")
-                .setMessage("Enter the join code for the queue you would like to join!")
+                .setTitle(getString(R.string.join_queue))
+                .setMessage(getString(R.string.enter_code))
                 .setView(joinCodeEditText)
                 .setPositiveButton("Join") { dialog, which ->
                     val joinCode = joinCodeEditText.text.toString()
                     QueueManager.joinQueue(joinCode, onSuccess = {
                         advanceToNextActivity()
                     }, onFailure = {
-                        makeToast("Error: Failed to join queue with given code!", this)
+                        makeToast(getString(R.string.join_error), this)
                     })
                 }
-                .setNegativeButton("Cancel") { _, _ -> }
+                .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
                 .show()
         }
     }
