@@ -147,7 +147,7 @@ class LoginActivity : AppCompatActivity() {
                     .setTitle(getString(R.string.confirm_password))
                     .setMessage(getString(R.string.reenter_password))
                     .setView(confirmPasswordEditText)
-                    .setPositiveButton(getString(getString(R.string.signup))) { _, which ->
+                    .setPositiveButton(getString(R.string.signup)) { _, which ->
                         val confirmPassword = confirmPasswordEditText.text.toString()
                         if(!confirmPassword.isNullOrEmpty() && !password.isNullOrEmpty() && password.equals(confirmPassword)) {
                             firebaseAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener { task ->

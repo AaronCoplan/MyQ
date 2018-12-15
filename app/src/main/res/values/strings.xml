@@ -25,7 +25,7 @@
     <!-- Toast Strings -->
     <string name="login_success">Logged in successfully!</string>
     <string name="login_failure">Login Failed</string>
-    <string name="login_error">Login Failed: %message$S</string>
+    <string name="login_error">Login Failed: %s</string>
     <string name="login_bad_credentials">Login Failed: Email or password did not match!</string>
     <string name="signup_success">Signed up successfully!</string>
     <string name="signup_fail">Signup failed! Please try again.</string>
@@ -49,6 +49,4 @@
     <string name="replace">Replace</string>
     <string name="join_queue">Join a Queue</string>
     <string name="enter_code">Enter the join code for the queue you would like to join!</string>
-    <
-
 </resources>

@@ -18,7 +18,7 @@
     <string name="login_bad_credentials">" Error de inicio de sesión: ¡El correo electrónico o la contraseña no
         coinciden! "
     </string>
-    <string name="login_error">Error de inicio de sesion: %message$S</string>
+    <string name="login_error">Error de inicio de sesion: %s</string>
     <string name="signup_success">Registrado con Éxito!</string>
     <string name="signup_fail">¡Registro Fallido! Inténtalo de Nuevo.</string>
     <string name="signup_dup">Usuario ya se ha Registrado! Por Favor Iniciar Sesión.</string>
