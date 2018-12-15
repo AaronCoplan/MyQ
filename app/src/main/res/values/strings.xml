@@ -44,7 +44,7 @@
     <string name="mismatch_password">Error: Passwords do not match!</string>
     <string name="cancel">Cancel</string>
     <string name="queue_exists">Queue Exists</string>
-    <string name="rejoin_or_replace">Would you like to REJOIN the existing queue or REPLACE with a new queue?</string>
+    <string name="rejoin_or_replace">Would you Like to REJOIN the Existing Queue or REPLACE with a New Queue?</string>
     <string name="rejoin">Rejoin</string>
     <string name="replace">Replace</string>
     <string name="join_queue">Join a Queue</string>

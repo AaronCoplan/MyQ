@@ -34,4 +34,9 @@
     <string name="mismatch_password">Error: ¡Las Contraseñas no Coinciden!</string>
     <string name="cancel">Cancelar</string>
     <string name="queue_exists">Existe Cola</string>
+    <string name="rejoin_or_replace">¿Desea RUGAR la cola existente o REEMPLAZAR con una nueva cola?</string>
+    <string name="rejoin">Reunirse Con</string>
+    <string name="replace">Reemplazar</string>
+    <string name="join_queue">Unirse a una Cola</string>
+    <string name="enter_code">" ¡Ingrese el Código de Unión Para la Cola a la Que Desea Unirse!"</string>
 </resources>
