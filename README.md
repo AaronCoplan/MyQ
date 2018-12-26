@@ -6,7 +6,7 @@ The host creates the queue and shares the unique join code with the people wishi
 
 The app uses the [Spotify Web API][3] for searches and the [Spotify SDK / Spotify App Remote][4] for playing the music on the host device. Additionally, the app uses Firebase for its [authentication][5] and [real time database][6].
 
-_While the app has worked well in all tests thus far, here may be some aspects of the app that do not work perfectly, especially as the Spotify App Remote features are still in beta.  If you have trouble or encounter bugs, please create an issue so it can be fixed!_
+_While the app has worked well in all tests thus far, here may be some aspects of the app that do not work perfectly, especially as the Spotify App Remote features are still in beta.  If you have trouble or encounter bugs, please [create an issue][7] so it can be fixed!_
 
 ### Requirements to Build from Source
 
@@ -24,3 +24,4 @@ _While the app has worked well in all tests thus far, here may be some aspects o
 [4]: https://developer.spotify.com/documentation/android/
 [5]: https://firebase.google.com/docs/auth/
 [6]: https://firebase.google.com/docs/database/
+[7]: https://github.com/AaronCoplan/MyQ/issues/new
