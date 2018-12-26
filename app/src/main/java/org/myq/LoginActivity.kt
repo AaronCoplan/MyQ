@@ -40,11 +40,6 @@ class LoginActivity : AppCompatActivity() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAuth = FirebaseAuth.getInstance()
 
-        // FIXME: REMOVE DEBUG HACK
-        if(firebaseAuth.currentUser != null) {
-            firebaseAuth.signOut()
-        }
-
         if(firebaseAuth.currentUser != null) {
             // already authenticated
             advanceToNextActivity()
