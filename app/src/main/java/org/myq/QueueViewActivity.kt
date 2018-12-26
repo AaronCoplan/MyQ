@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseUser
 
 class QueueViewActivity : AppCompatActivity() {
 
+    private lateinit var nowPlayingTextView: TextView
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyQueueTextView: TextView
     private lateinit var addButton: FloatingActionButton
@@ -49,9 +50,11 @@ class QueueViewActivity : AppCompatActivity() {
 
         pauseButton = findViewById(R.id.pauseButton)
         pauseButton.setOnClickListener {
-            firebaseAnalytics.logEvent("pause_ button_click", null)
+            firebaseAnalytics.logEvent("pause_button_click", null)
             SpotifyManager.pause()
         }
+
+        nowPlayingTextView = findViewById(R.id.nowPlayingTextView)
 
         nextButton = findViewById(R.id.nextButton)
         nextButton.setOnClickListener {
@@ -61,6 +64,7 @@ class QueueViewActivity : AppCompatActivity() {
                     bundle.putBoolean("queue_is_empty", true)
                     firebaseAnalytics.logEvent("next_button_click", bundle)
                     makeToast(getString(R.string.no_song_error), this)
+                    nowPlayingTextView.text = "Nothing currently playing!"
                 } else {
                     val bundle = Bundle()
                     bundle.putBoolean("queue_is_empty", false)
@@ -68,6 +72,7 @@ class QueueViewActivity : AppCompatActivity() {
                     currentSong = song
                     SpotifyManager.play(song.uri)
                     println("[PLAYING SONG] ${song.title}")
+                    nowPlayingTextView.text = "Now playing: ${song.title}"
                 }
             }
         }
@@ -118,11 +123,17 @@ class QueueViewActivity : AppCompatActivity() {
                             QueueManager.popQueue { song ->
                                 if(song == null) {
                                     println("[NOTHING PLAYING] Song is null")
+                                    runOnUiThread {
+                                        nowPlayingTextView.text = "Nothing currently playing!"
+                                    }
                                 } else {
                                     skipNextIteration = true
                                     currentSong = song
                                     SpotifyManager.play(song.uri)
                                     println("[PLAYING SONG] ${song.title}")
+                                    runOnUiThread {
+                                        nowPlayingTextView.text = "Now playing: ${song.title}"
+                                    }
                                 }
                             }
                         } else {
@@ -133,11 +144,23 @@ class QueueViewActivity : AppCompatActivity() {
                                 QueueManager.popQueue { song ->
                                     if(song == null) {
                                         println("[NOTHING PLAYING] Song is null")
+                                        runOnUiThread{
+                                            nowPlayingTextView.text = "Nothing currently playing!"
+                                        }
                                     } else {
                                         skipNextIteration = true
                                         currentSong = song
                                         SpotifyManager.play(song.uri)
                                         println("[PLAYING SONG] ${song.title}")
+                                        runOnUiThread {
+                                            nowPlayingTextView.text = "Now playing: ${song.title}"
+                                        }
+                                    }
+                                }
+                            } else {
+                                if(playerState.track.name != null) {
+                                    runOnUiThread {
+                                        nowPlayingTextView.text = "Now playing: ${playerState.track.name}"
                                     }
                                 }
                             }
