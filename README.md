@@ -4,7 +4,7 @@ MyQ is an Android application that enables multiple people to contribute to a sh
 
 The host creates the queue and shares the unique join code with the people wishing to join. Each person may use the search functionality to look up songs to add to the queue. The songs in the queue are played in order on the host's device and play, pause, and skip buttons are provided.
 
-The app uses the Spotify Web API for searches and the Spotify SDK / Spotify App Remote for playing the music on the host device. Additionally, the app uses Firebase for its authentication and real time database.
+The app uses the [Spotify Web API][3] for searches and the [Spotify SDK / Spotify App Remote][4] for playing the music on the host device. Additionally, the app uses Firebase for its [authentication][5] and [real time database][6].
 
 ### Requirements to Build from Source
 
@@ -18,3 +18,7 @@ The app uses the Spotify Web API for searches and the Spotify SDK / Spotify App 
 
 [1]: https://support.google.com/firebase/answer/7015592?hl=en
 [2]: https://developer.spotify.com/dashboard/
+[3]: https://developer.spotify.com/documentation/web-api/
+[4]: https://developer.spotify.com/documentation/android/
+[5]: https://firebase.google.com/docs/auth/
+[6]: https://firebase.google.com/docs/database/
